@@ -108,7 +108,7 @@ img {
 .contacts {
   display: grid;
   grid-template-columns: 120px 120px 120px 120px;
-   margin-left: 12%;
+  margin-left: 12%;
 }
 
 .contact-email {
@@ -155,4 +155,39 @@ dd {
   display: none;
 }
 
-
+@media screen and (min-width: 801px) {
+  #contact h3 {
+    visibility: hidden;
+  }
+  #contact {
+    position: absolute;
+    top: -45px;
+    right: -95px;
+  }
+  header div {
+    width: 54%;
+    height: 210px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .content {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+  p {
+    margin-right: 10%;
+  }
+  h1,
+  h2 {
+    font-size: 40px;
+    margin: 0%;
+  }
+  h1 {
+    margin-top: 2px;
+  }
+}
