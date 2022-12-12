@@ -16,3 +16,28 @@
 	Points INTEGER,
 	Graduation TEXT
 );"
+
+
+
+
+"INSERT INTO graduates (ID, name, Age, Gender, Points) SELECT * FROM students WHERE name = 'Layal'"
+
+
+"UPDATE graduates SET Graduation = '08/09/2019' WHERE name = 'Layal'"
+
+
+
+
+"DELETE from students WHERE name = 'Layal'"
+
+"SELECT employees.Name, employees.Company, companies.Date
+ FROM employees 
+ INNER JOIN companies ON companies.Name = employees.Company"
+
+ "SELECT employees.Name FROM employees 
+  INNER JOIN companies ON companies.Name = employees.Company
+  WHERE companies.Date < 2000"
+
+"SELECT companies.Name FROM employees 
+ INNER JOIN companies ON companies.Name = employees.Company
+ WHERE employees.Role = 'Graphic Designer'"
