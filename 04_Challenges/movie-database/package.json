@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "description": "or CMDB for short",
   "main": "index.js",
-// previous package.json stuff here...
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    // this should be there
+   
             "dev": "nodemon index.js"
+        
+      
   },
-        // next package.json stuff here...
-  
   "author": "",
   "license": "ISC",
   "dependencies": {
