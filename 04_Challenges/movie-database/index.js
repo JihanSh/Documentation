@@ -38,9 +38,48 @@ app.get("/search?", (req, res) => {
     });
   }
 });
+
 app.get("/movies/add", (req, res) => {
-  res.send("OK");
+  // Get the title, year, and rating from the query string
+  const { title, year, rating } = req.query;
+
+  // Check if the title and year are present
+  if (!title || !year) {
+    return res.status(404).send({
+      status: 404,
+      error: true,
+      message: "You cannot create a movie without providing a title or a year",
+    });
+  }
+
+  // Check if the year is 4 digits and is a number
+  if (year.length !== 4 || isNaN(year)) {
+    return res.status(404).send({
+      status: 404,
+      error: true,
+      message: "You cannot create a movie without providing a valid year",
+    });
+  }
+
+  // Set the default rating if one is not provided
+  if (!rating) {
+    rating = 4;
+  }
+
+  // Create the new movie object
+  const newMovie = {
+    title,
+    year,
+    rating,
+  };
+
+  // Add the new movie to the movies array
+  movies.push(newMovie);
+
+  // Return the updated list of movies
+  res.json(movies);
 });
+
 app.get("/movies/read", (req, res) => {
   res.send({ status: 200, data: movies });
 });
