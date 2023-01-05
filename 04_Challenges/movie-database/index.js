@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 3002;
 const movies = [
   { title: "Jaws", year: 1975, rating: 8 },
   { title: "Avatar", year: 2009, rating: 7.8 },
@@ -41,8 +41,20 @@ app.get("/search?", (req, res) => {
 app.get("/movies/add", (req, res) => {
   res.send("OK");
 });
-app.get("/movies/get", (req, res) => {
+app.get("/movies/read", (req, res) => {
   res.send({ status: 200, data: movies });
+});
+app.get("/movies/read/by-date", (req, res) => {
+  res.send({ status: 200, data: movies.sort((a, b) => a.year - b.year) });
+});
+app.get("/movies/read/by-rating", (req, res) => {
+  res.send({ status: 200, data: movies.sort((a, b) => b.rating - a.rating) });
+});
+app.get("/movies/read/by-title", (req, res) => {
+  res.send({
+    status: 200,
+    data: movies.sort((a, b) => a.title.localeCompare(b.title)),
+  });
 });
 app.get("/movies/edit", (req, res) => {
   res.send("OK");
