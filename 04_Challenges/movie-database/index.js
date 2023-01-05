@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = 3002;
+const port = 3004;
 const movies = [
   { title: "Jaws", year: 1975, rating: 8 },
   { title: "Avatar", year: 2009, rating: 7.8 },
@@ -56,6 +56,20 @@ app.get("/movies/read/by-title", (req, res) => {
     data: movies.sort((a, b) => a.title.localeCompare(b.title)),
   });
 });
+
+app.get("/movies/read/id/:id", (req, res) => {
+  let id = req.params.id;
+  //const mov = movies.find(c=>movies[id]===parseInt(id));
+  const mov = movies[id - 1];
+  if (!mov)
+    res.send({
+      status: 404,
+      error: true,
+      message: "the movie id does not exist",
+    });
+  res.send({ status: 200, data: mov });
+});
+
 app.get("/movies/edit", (req, res) => {
   res.send("OK");
 });
