@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-const port = 3004;
+const port = 3005;
 const movies = [
-  { title: "Jaws", year: 1975, rating: 8 },
-  { title: "Avatar", year: 2009, rating: 7.8 },
-  { title: "Brazil", year: 1985, rating: 8 },
-  { title: "الإرهاب والكباب‎", year: 1992, rating: 6.2 },
+  { id: 1, title: "Jaws", year: 1975, rating: 8 },
+  { id: 2, title: "Avatar", year: 2009, rating: 7.8 },
+  { id: 3, title: "Brazil", year: 1985, rating: 8 },
+  { id:   4, title: "الإرهاب والكباب‎", year: 1992, rating: 6.2 },
 ];
 app.get("/", (req, res) => {
   res.send("OK");
@@ -39,9 +39,9 @@ app.get("/search?", (req, res) => {
   }
 });
 
-app.get("/movies/add", (req, res) => {
+app.post("/movies/add", (req, res) => {
   // Get the title, year, and rating from the query string
-  const { title, year, rating } = req.query;
+  let { title, year, rating } = req.query;
 
   // Check if the title and year are present
   if (!title || !year) {
@@ -62,7 +62,7 @@ app.get("/movies/add", (req, res) => {
   }
 
   // Set the default rating if one is not provided
-  if (!rating) {
+  if (!rating || isNaN(rating)) {
     rating = 4;
   }
 
@@ -77,7 +77,7 @@ app.get("/movies/add", (req, res) => {
   movies.push(newMovie);
 
   // Return the updated list of movies
-  res.json(movies);
+  res.send(movies);
 });
 
 app.get("/movies/read", (req, res) => {
@@ -104,16 +104,58 @@ app.get("/movies/read/id/:id", (req, res) => {
     res.send({
       status: 404,
       error: true,
-      message: "the movie id does not exist",
+      message: `the movie ${id} does not exist`,
     });
   res.send({ status: 200, data: mov });
 });
 
-app.get("/movies/edit", (req, res) => {
-  res.send("OK");
+app.patch("/movies/update/:id", (req, res) => {
+  const id = req.params.id;
+  const { title, rating, year } = req.query;
+
+  // Find the movie with the matching id
+  const movie = movies.find((movie) => movie.id == id
+  );
+  // If the movie is not found, return a 404 response
+  if (!movie) {
+    return res.status(404).send({
+      status: 404,
+      error: true,
+      message: `The movie ${id} does not exist`,
+    });
+  }
+
+  // Update the movie's title, rating, and/or year
+  if (title) movie.title = title;
+  if (rating) movie.rating = rating;
+  if (year) movie.year = year;
+
+  // Return the updated list of movies
+  return res.send(movies);
 });
-app.get("/movies/delete", (req, res) => {
-  res.send("OK");
+app.delete("/movies/delete/:id", (req, res) => {
+  const id = req.params.id;
+
+  // Find the movie with the matching id
+  const movie = movies.find((movie) => movie.id == id
+  );
+
+  console.log("movie:", movie);
+  // If the movie is not found, return a 404 response
+  if (!movie) {
+    return res.status(404).send({
+      status: 404,
+      error: true,
+      message: `The movie ${id} does not exist`,
+    });
+  }
+
+  // Remove the movie from the movies array
+  const movieIndex = movies.indexOf(movie);
+  movies.splice(movieIndex, 1);
+
+  // Return the updated list of movies
+  return res.send(movies);
 });
 
 app.listen(port, () => {
